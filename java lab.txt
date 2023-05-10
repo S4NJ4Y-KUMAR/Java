@@ -1,0 +1,838 @@
+1.
+class Rectangle {
+    private double length;
+    private double breadth;
+
+    public Rectangle(double length, double breadth) {
+        this.length = length;
+        this.breadth = breadth;
+    }
+
+    public double area() {
+        return length * breadth;
+    }
+
+    public double perimeter() {
+        return 2 * (length + breadth);
+    }
+}
+
+class Square extends Rectangle {
+    public Square(double side) {
+        super(side, side);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle r = new Rectangle(5, 3);
+        System.out.println("Rectangle area: " + r.area());
+        System.out.println("Rectangle perimeter: " + r.perimeter());
+
+        Square s = new Square(4);
+        System.out.println("Square area: " + s.area());
+        System.out.println("Square perimeter: " + s.perimeter());
+    }
+}
+
+2.
+class Bank {
+    public int getBalance() {
+        return 0;
+    }
+}
+
+class BankA extends Bank {
+    public int getBalance() {
+        return 1000;
+    }
+}
+
+class BankB extends Bank {
+    public int getBalance() {
+        return 1500;
+    }
+}
+
+class BankC extends Bank {
+    public int getBalance() {
+        return 2000;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankA bankA = new BankA();
+        BankB bankB = new BankB();
+        BankC bankC = new BankC();
+        
+        System.out.println("Money deposited in BankA: " + bankA.getBalance());
+        System.out.println("Money deposited in BankB: " + bankB.getBalance());
+        System.out.println("Money deposited in BankC: " + bankC.getBalance());
+    }
+}
+
+3.
+import java.util.Scanner;
+
+public class SGPA {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // Prompt the user to enter the number of subjects
+        System.out.print("Enter the number of subjects: ");
+        int numSubjects = input.nextInt();
+
+        // Initialize arrays to store the subject codes, credit hours, and grades
+        String[] subjectCodes = new String[numSubjects];
+        int[] creditHours = new int[numSubjects];
+        int[] grades = new int[numSubjects];
+
+        // Prompt the user to enter the details of each subject
+        for (int i = 0; i < numSubjects; i++) {
+            System.out.print("Enter subject code for subject " + (i+1) + ": ");
+            subjectCodes[i] = input.next();
+
+            System.out.print("Enter credit hours for subject " + (i+1) + ": ");
+            creditHours[i] = input.nextInt();
+
+            System.out.print("Enter grade for subject " + (i+1) + " (out of 100): ");
+            grades[i] = input.nextInt();
+        }
+
+        // Calculate the SGPA
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        for (int i = 0; i < numSubjects; i++) {
+            double gradePoint = 0;
+            if (grades[i] >= 90 && grades[i] <= 100) {
+                gradePoint = 4.0;
+            } else if (grades[i] >= 80 && grades[i] <= 89) {
+                gradePoint = 3.0;
+            } else if (grades[i] >= 70 && grades[i] <= 79) {
+                gradePoint = 2.0;
+            } else if (grades[i] >= 60 && grades[i] <= 69) {
+                gradePoint = 1.0;
+            }
+
+            totalCredits += creditHours[i];
+            totalGradePoints += (gradePoint * creditHours[i]);
+        }
+
+        double sgpa = totalGradePoints / totalCredits;
+
+        // Print the SGPA
+        System.out.println("SGPA: " + sgpa);
+    }
+}
+
+4.
+class A {
+    public static void print() {
+        System.out.println("Parent");
+    }
+}
+
+class B extends A {
+    public static void print() {
+        System.out.println("Child");
+    }
+}
+
+public class StaticMethodDemo {
+    public static void main(String[] args) {
+        // Call the static method using the objects of both classes
+        A.print(); // Output: Parent
+        B.print(); // Output: Child
+
+        // Call the static method using an object of the parent class referring to the child class
+        A obj = new B();
+        obj.print(); // Output: Parent
+        // Note: This calls the static method of the parent class A because static methods are resolved at compile time, not runtime
+    }
+}
+
+5.
+
+interface Test {
+    int square(int num);
+}
+
+class Arithmetic implements Test {
+    public int square(int num) {
+        return num * num;
+    }
+}
+
+class ToTestInt {
+    public static void main(String[] args) {
+        Arithmetic obj = new Arithmetic();
+        System.out.println("Square of 5 is: " + obj.square(5));
+    }
+}
+
+6.
+
+interface EligibilityCriteria {
+    boolean isEligible(int marks);
+}
+
+class Students {
+    private String name;
+    private int marks;
+
+    public Students(String name, int marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+}
+
+class Department {
+    private String departmentName;
+    private int passingMarks;
+
+    public Department(String departmentName, int passingMarks) {
+        this.departmentName = departmentName;
+        this.passingMarks = passingMarks;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public int getPassingMarks() {
+        return passingMarks;
+    }
+}
+
+class Enrollment implements EligibilityCriteria {
+    private Students student;
+    private Department department;
+
+    public Enrollment(Students student, Department department) {
+        this.student = student;
+        this.department = department;
+    }
+
+    public Students getStudent() {
+        return student;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    @Override
+    public boolean isEligible(int marks) {
+        return marks >= department.getPassingMarks();
+    }
+}
+
+public class EligibilityDemo {
+    public static void main(String[] args) {
+        Department dept1 = new Department("Computer Science", 60);
+        Department dept2 = new Department("Electronics", 55);
+
+        Students student1 = new Students("Alice", 70);
+        Students student2 = new Students("Bob", 50);
+        Students student3 = new Students("Charlie", 65);
+
+        Enrollment enrollment1 = new Enrollment(student1, dept1);
+        Enrollment enrollment2 = new Enrollment(student2, dept1);
+        Enrollment enrollment3 = new Enrollment(student3, dept2);
+
+        System.out.println("Eligibility Criteria for Department " + dept1.getDepartmentName() + ": " + dept1.getPassingMarks());
+        System.out.println("Eligibility Criteria for Department " + dept2.getDepartmentName() + ": " + dept2.getPassingMarks());
+        System.out.println();
+
+        System.out.println("Enrollment Details:");
+        System.out.println("--------------------------------------------------------------");
+        System.out.println("Name\t\tDepartment\t\tMarks\t\tEligible");
+        System.out.println("--------------------------------------------------------------");
+        System.out.println(enrollment1.getStudent().getName() + "\t\t" + enrollment1.getDepartment().getDepartmentName() + "\t\t" + enrollment1.getStudent().getMarks() + "\t\t" + enrollment1.isEligible(enrollment1.getStudent().getMarks()));
+        System.out.println(enrollment2.getStudent().getName() + "\t\t" + enrollment2.getDepartment().getDepartmentName() + "\t\t" + enrollment2.getStudent().getMarks() + "\t\t" + enrollment2.isEligible(enrollment2.getStudent().getMarks()));
+        System.out.println(enrollment3.getStudent().getName() + "\t\t" + enrollment3.getDepartment().getDepartmentName() + "\t\t" + enrollment3.getStudent().getMarks() + "\t\t" + enrollment3.isEligible(enrollment3.getStudent().getMarks()));
+        System.out.println("--------------------------------------------------------------");
+    }
+}
+
+7.
+
+abstract class Shape {
+    protected int dimension1;
+    protected int dimension2;
+    
+    public Shape(int dimension1, int dimension2) {
+        this.dimension1 = dimension1;
+        this.dimension2 = dimension2;
+    }
+    
+    public abstract void printArea();
+}
+
+class Rectangle extends Shape {
+    public Rectangle(int length, int breadth) {
+        super(length, breadth);
+    }
+    
+    public void printArea() {
+        int area = dimension1 * dimension2;
+        System.out.println("Area of Rectangle: " + area);
+    }
+}
+
+class Triangle extends Shape {
+    public Triangle(int base, int height) {
+        super(base, height);
+    }
+    
+    public void printArea() {
+        double area = 0.5 * dimension1 * dimension2;
+        System.out.println("Area of Triangle: " + area);
+    }
+}
+
+class Circle extends Shape {
+    public Circle(int radius) {
+        super(radius, 0);
+    }
+    
+    public void printArea() {
+        double area = Math.PI * dimension1 * dimension1;
+        System.out.println("Area of Circle: " + area);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Rectangle rectangle = new Rectangle(5, 7);
+        rectangle.printArea();
+        
+        Triangle triangle = new Triangle(3, 9);
+        triangle.printArea();
+        
+        Circle circle = new Circle(4);
+        circle.printArea();
+    }
+}
+
+8.
+
+Here's an example program to create a package named mypack and import it in a Circle class:
+
+First, we create a new directory called mypack and create a Java file called MyClass.java inside the mypack directory:
+
+csharp
+Copy code
+// mypack/MyClass.java
+package mypack;
+
+public class MyClass {
+    public static void hello() {
+        System.out.println("Hello from mypack!");
+    }
+}
+Next, we create a Circle class in the default package and import the mypack package:
+
+typescript
+Copy code
+// Circle.java
+import mypack.MyClass;
+
+public class Circle {
+    public static void main(String[] args) {
+        MyClass.hello();
+    }
+}
+In the Circle class, we import the mypack.MyClass class using the import statement. Then, we call the hello() method of the MyClass class using the fully qualified name mypack.MyClass.hello().
+
+Note that the directory structure should match the package structure, and the files should be compiled in the correct order. We can compile the files using the following commands:
+
+
+javac mypack/MyClass.java
+javac Circle.java
+Finally, we can run the Circle class using the java command:
+
+
+
+java Circle
+Output:
+
+
+
+Hello from mypack!
+
+9.
+
+public class StringDemo {
+    public static void main(String[] args) {
+        // String demo
+        String str1 = "hello";
+        String str2 = "world";
+        String str3 = "hello";
+        System.out.println("str1: " + str1);
+        System.out.println("str2: " + str2);
+        System.out.println("str3: " + str3);
+        System.out.println("str1 length: " + str1.length()); // length method
+        System.out.println("str1 equals str2: " + str1.equals(str2)); // equals method
+        System.out.println("str1 equals str3: " + str1.equals(str3)); // equals method
+
+        // StringBuffer demo
+        StringBuffer sb = new StringBuffer("Java");
+        System.out.println("sb: " + sb);
+        sb.append(" is");
+        sb.append(" awesome");
+        System.out.println("sb after append: " + sb); // append method
+        sb.delete(5, 7);
+        System.out.println("sb after delete: " + sb); // delete method
+
+        // StringBuilder demo
+        StringBuilder sb2 = new StringBuilder("hello");
+        System.out.println("sb2: " + sb2);
+        sb2.insert(2, "world");
+        System.out.println("sb2 after insert: " + sb2); // insert method
+        sb2.reverse();
+        System.out.println("sb2 after reverse: " + sb2); // reverse method
+    }
+}
+
+10.
+public class MatrixAddition {
+    public static void main(String[] args) {
+        int rows = 3, columns = 3;
+        int[][] matrix1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        int[][] matrix2 = {{9, 8, 7}, {6, 5, 4}, {3, 2, 1}};
+        int[][] sum = new int[rows][columns];
+
+        // Adding matrices
+        for(int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                sum[i][j] = matrix1[i][j] + matrix2[i][j];
+            }
+        }
+
+        // Displaying the result
+        System.out.println("Sum of matrices is: ");
+        for(int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                System.out.print(sum[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+11.
+
+public class MatrixMultiplication {
+    public static void main(String[] args) {
+        int rows1 = 3, columns1 = 3;
+        int rows2 = 3, columns2 = 3;
+        int[][] matrix1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        int[][] matrix2 = {{9, 8, 7}, {6, 5, 4}, {3, 2, 1}};
+        int[][] product = new int[rows1][columns2];
+
+        // Multiplying matrices
+        for(int i = 0; i < rows1; i++) {
+            for (int j = 0; j < columns2; j++) {
+                for (int k = 0; k < columns1; k++) {
+                    product[i][j] += matrix1[i][k] * matrix2[k][j];
+                }
+            }
+        }
+
+        // Displaying the result
+        System.out.println("Product of matrices is: ");
+        for(int i = 0; i < rows1; i++) {
+            for (int j = 0; j < columns2; j++) {
+                System.out.print(product[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+12.
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class SortNames {
+    public static void main(String[] args) {
+        ArrayList<String> names = new ArrayList<String>();
+        names.add("John");
+        names.add("Alice");
+        names.add("Bob");
+        names.add("David");
+        names.add("Eva");
+
+        System.out.println("Original list of names: " + names);
+
+        Collections.sort(names);
+
+        System.out.println("Sorted list of names: " + names);
+    }
+}
+
+13.
+
+import java.util.Scanner;
+
+public class Palindrome {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String str = input.nextLine();
+        input.close();
+        
+        boolean isPalindrome = true;
+        
+        for (int i = 0, j = str.length() - 1; i < j; i++, j--) {
+            if (str.charAt(i) != str.charAt(j)) {
+                isPalindrome = false;
+                break;
+            }
+        }
+        
+        if (isPalindrome) {
+            System.out.println("The string is a palindrome.");
+        } else {
+            System.out.println("The string is not a palindrome.");
+        }
+    }
+}
+
+14.
+
+public abstract class Pen {
+    public abstract void write(String text);
+    public abstract void refill();
+}
+
+public class FountainPen extends Pen {
+    private int inkLevel;
+    private int nibSize;
+
+    public FountainPen(int inkLevel, int nibSize) {
+        this.inkLevel = inkLevel;
+        this.nibSize = nibSize;
+    }
+
+    public void write(String text) {
+        System.out.println("Writing: " + text);
+        this.inkLevel -= text.length();
+    }
+
+    public void refill() {
+        this.inkLevel = 100;
+    }
+
+    public void changeNib(int newSize) {
+        System.out.println("Changing nib from " + this.nibSize + " to " + newSize);
+        this.nibSize = newSize;
+    }
+}
+
+public class Monkey {
+    public void jump() {
+        System.out.println("Jumping...");
+    }
+
+    public void bite() {
+        System.out.println("Biting...");
+    }
+}
+
+public interface BasicAnimal {
+    void eat(String food);
+    void sleep(int hours);
+}
+
+public class Human extends Monkey implements BasicAnimal {
+    public void eat(String food) {
+        System.out.println("Eating " + food + "...");
+    }
+
+    public void sleep(int hours) {
+        System.out.println("Sleeping for " + hours + " hours...");
+    }
+}
+
+15.
+
+// Telephone class
+abstract class Telephone {
+    abstract void dial();
+    abstract void lift();
+    abstract void disconnect();
+}
+
+// SmartTelephone class
+class SmartTelephone extends Telephone {
+    void dial() {
+        System.out.println("Dialing number...");
+    }
+
+    void lift() {
+        System.out.println("Lifting receiver...");
+    }
+
+    void disconnect() {
+        System.out.println("Disconnecting call...");
+    }
+
+    void changeNib() {
+        System.out.println("Changing nib...");
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating object of SmartTelephone
+        SmartTelephone st = new SmartTelephone();
+
+        // Demonstrating polymorphism
+        Telephone t = st;
+        t.dial();
+        t.lift();
+        t.disconnect();
+    }
+}
+
+// Monkey class
+class Monkey {
+    void jump() {
+        System.out.println("Monkey is jumping...");
+    }
+
+    void bite() {
+        System.out.println("Monkey is biting...");
+    }
+}
+
+// Human class
+class Human extends Monkey implements BasicAnimal {
+    void eat() {
+        System.out.println("Human is eating...");
+    }
+
+    void sleep() {
+        System.out.println("Human is sleeping...");
+    }
+}
+
+// BasicAnimal interface
+interface BasicAnimal {
+    void eat();
+    void sleep();
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating object of Human
+        Human h = new Human();
+
+        // Demonstrating polymorphism
+        Monkey m = h;
+        m.jump();
+        m.bite();
+
+        BasicAnimal ba = h;
+        ba.eat();
+        ba.sleep();
+    }
+}
+
+
+// TVremote interface
+interface TVremote {
+    void powerOn();
+    void powerOff();
+    void volumeUp();
+    void volumeDown();
+}
+
+// SmartTVremote interface extending TVremote interface
+interface SmartTVremote extends TVremote {
+    void openApp();
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating object of SmartTVremote
+        SmartTVremote str = new SmartTVremote() {
+            public void powerOn() {
+                System.out.println("Powering on TV...");
+            }
+
+            public void powerOff() {
+                System.out.println("Powering off TV...");
+            }
+
+            public void volumeUp() {
+                System.out.println("Increasing volume...");
+            }
+
+            public void volumeDown() {
+                System.out.println("Decreasing volume...");
+            }
+
+            public void openApp() {
+                System.out.println("Opening app...");
+            }
+        };
+
+        // Demonstrating interface inheritance
+        str.powerOn();
+        str.powerOff();
+        str.volumeUp();
+        str.volumeDown();
+        str.openApp();
+    }
+}
+
+// TV class implementing TVremote interface
+class TV implements TVremote {
+    public void powerOn() {
+        System.out.println("Powering on TV...");
+    }
+
+    public void powerOff() {
+        System.out.println("Powering off TV...");
+    }
+
+    public void volumeUp() {
+        System.out.println("Increasing volume...");
+    }
+
+    public void volumeDown() {
+        System.out.println("Decreasing volume...");
+    }
+}
+
+// TVremote interface
+interface TVremote {
+    void powerOn();
+    void powerOff();
+    void volumeUp();
+    void volumeDown();
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating object of TV
+        TV tv = new TV();
+
+        // Demonstrating interface implementation
+
+
+16.
+
+import java.util.Stack;
+
+public class StackAutoboxingUnboxingExample {
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+
+        int num1 = 10;
+        Integer num2 = Integer.valueOf(20);
+        int num3 = 30;
+
+        stack.push(num1);
+        stack.push(num2);
+        stack.push(num3);
+
+        System.out.println("Stack elements: " + stack);
+    }
+}
+
+17.
+public class OuterClass {
+  
+  private int outerField = 10;
+
+  public void outerMethod() {
+    InnerClass innerObj = new InnerClass();
+    innerObj.innerMethod();
+  }
+  
+  public class InnerClass {
+    
+    private int innerField = 20;
+
+    public void innerMethod() {
+      System.out.println("Inner field value: " + innerField);
+      System.out.println("Outer field value: " + outerField);
+      outerMethod();
+    }
+    
+  }
+
+  public static void main(String[] args) {
+    OuterClass outerObj = new OuterClass();
+    OuterClass.InnerClass innerObj = outerObj.new InnerClass();
+    innerObj.innerMethod();
+  }
+
+}
+
+
+18.
+
+import java.io.*;
+
+public class FileInformation {
+    public static void main(String[] args) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            System.out.print("Enter file name: ");
+            String fileName = reader.readLine();
+
+            File file = new File(fileName);
+
+            if (file.exists()) {
+                System.out.println("File exists.");
+
+                if (file.isFile()) {
+                    System.out.println("Type: File");
+
+                    if (file.canRead()) {
+                        System.out.println("Readable: Yes");
+                    } else {
+                        System.out.println("Readable: No");
+                    }
+
+                    if (file.canWrite()) {
+                        System.out.println("Writable: Yes");
+                    } else {
+                        System.out.println("Writable: No");
+                    }
+
+                    System.out.println("Length: " + file.length() + " bytes");
+                } else if (file.isDirectory()) {
+                    System.out.println("Type: Directory");
+                }
+            } else {
+                System.out.println("File does not exist.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
